@@ -1,0 +1,7 @@
+PAUSE
+MSG
+Natalia
+You are a peach goose pie
+EXIT
+
+

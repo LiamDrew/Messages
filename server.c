@@ -1,3 +1,11 @@
+/**
+ * @file server.c
+ * @author Liam Drew
+ * @date October 2024
+ * @brief 
+ * Server implementation for a server-based chat messaging service over TCP.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -39,13 +47,13 @@ int main(int argc, char **argv)
     setsockopt(parentfd, SOL_SOCKET, SO_REUSEADDR,
                (const void *)&optval, sizeof(int));
 
-    // build the server's internet address
+    /* build the server's internet address */
     bzero((char *)&serveraddr, sizeof(serveraddr));
     serveraddr.sin_family = AF_INET;
     serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
     serveraddr.sin_port = htons((unsigned short)portno);
 
-    // bind the parent socket to the input portno
+    /* bind the parent socket to the input portno */
     if (bind(parentfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0)
         perror("Error on binding");
 
@@ -62,7 +70,7 @@ int main(int argc, char **argv)
     Dispatch_T *dispatch = new_dispatch();
 
     struct timeval timeout;
-    timeout.tv_sec = BUF_TTL;    //setting the default timeout
+    timeout.tv_sec = BUF_TTL;   //setting the default timeout
     timeout.tv_usec = 0;
 
     while (true) {
@@ -116,8 +124,8 @@ int main(int argc, char **argv)
                     printf("Server established connection with %s (%s)\n\n",
                         hostp->h_name, hostaddrp);
 
-                    // Adding the new connection request to the set of active
-                    // sockets
+                    /* Adding the new connection request to the set of active
+                     * sockets */
                     FD_SET(new_fd, &active_fd_set);
 
                     /* The client socket has connected with the current socket, 

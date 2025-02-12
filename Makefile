@@ -1,14 +1,19 @@
+OS := $(shell uname)
+
 src = $(wildcard *.c)
 obj = $(src:.c=.o)
-CC = gcc
-LDFLAGS = -lnsl
+CC = clang
+LDFLAGS =
 
-#CFLAGS (not in their makefile)
+ifeq ($(OS),Linux)
+	LDFLAGS += -lnsl
+endif
+
 CFLAGS = -Wall
 
-a.out: $(obj)
+server: $(obj)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 .PHONY: clean
 clean:
-	rm -f $(obj) a.out
+	rm -f $(obj) server

@@ -1,3 +1,5 @@
 .gitattributes
 /Assignment2_tests
 /omitted_tests
+.DS_Store
+**/.DS_Store

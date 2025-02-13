@@ -29,11 +29,12 @@ typedef struct __attribute__((packed))
 
 /* UTILITIES*/
 #define BUFSIZE 1024
-#define IP "10.4.2.20"
-#define PORT 9052
 #define MSG_SIZE sizeof(message)
 #define HDR_SIZE sizeof(header)
 #define SERVER "Server"
+
+#define IP "10.4.2.20"
+#define PORT 9052
 
 /* METHOD DEFINITIONS */
 
@@ -738,18 +739,8 @@ int send_message(char *name, int fd)
         free_message(&m);
     }
 
-
-
-
-
     // build message
-
-
-
-
-
-    return 0;
- 
+    return 0; 
 }
 
 
@@ -759,17 +750,24 @@ int main(int argc, char **argv)
     int sockfd, portno;
     struct sockaddr_in serveraddr;
     struct hostent *server;
-    char *hostname;
 
-    /* check command line arguments */
-    if (argc != 2) {
-        fprintf(stderr, "usage: %s <name>\n", argv[0]);
-        exit(0);
+    // /* check command line arguments */
+    // if (argc != 2) {
+    //     fprintf(stderr, "usage: %s <name>\n", argv[0]);
+    //     exit(0);
+    // }
+
+    if (argc != 4) {
+        fprintf(stderr, "usage: %s <name> <hostname> <port>\n", argv[0]);
+        return 0;
     }
 
-    hostname = IP;
-    portno = PORT;
     char *name = argv[1];
+    char *hostname = argv[2];
+    portno = atoi(argv[3]);
+    
+    // hostname = IP;
+    // portno = PORT;
 
     /* socket: create the socket */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);

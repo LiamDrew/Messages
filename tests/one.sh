@@ -1,25 +1,46 @@
 #!/bin/bash
 
-# TEST 22: HELLO message cannot have a length
-./simple_client.out Liam > liam_output1.txt <<EOF &
+# Define color codes
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
 
-BUILDMSG
+IP=127.0.0.1
+PORT=1026
+
+
+# TEST 4: Make sure the client can send a full header + partial message to
+# their friend
+
+./simple_client.out Natalia > natalia_output.txt <<EOF &
+HELLO
+PAUSE
+PAUSE
+PAUSE
+EOF
+
+sleep 0.5
+
+./simple_client.out Liam > liam_output.txt <<EOF &
+HELLO
+PAUSE
+PAUSE
+PARTIAL
+Natalia
+I took her to my penthouse and
+-1
+60
 1
-Liam
-Server
-50
-0
-NULL
 EOF
 
 wait
 
 echo -e "______________________________________"
-echo "Test 22: Hello message must have length 0"
-if grep "Shutting down the client" liam_output1.txt > /dev/null 2>&1 && ! grep "Type: 2, Source: Server" liam_output1.txt > /dev/null 2>&1; then
-    echo -e "Test 22 Passed"
+echo "Test 4: Sending a full header + message to another client"
+if grep "Message content is: I took her to my penthouse" natalia_output.txt > /dev/null 2>&1; then
+    echo -e "Test 4 Passed"
 else
-    echo -e "Test 22 Failed"
+    echo -e "Test 4 Failed"
 fi
-rm liam_output1.txt
+rm liam_output.txt natalia_output.txt
 echo -e "______________________________________\n"

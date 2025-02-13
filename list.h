@@ -6,7 +6,7 @@
 #include <time.h>
 #include <sys/select.h>
 
-#define BUF_TTL 60      //setting the buffer TTL to only 10 seconds FOR NOW
+#define BUF_TTL 60
 #define IDSIZE 20
 
 // this shouldn't have to go in the interface, but whatever

@@ -14,15 +14,14 @@ CFLAGS = -Wall
 server: $(obj)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-.PHONY: clean test testall
+.PHONY: clean test testone
 clean:
 	rm -f $(obj) server
 
-test:
+testone:
 	make -C tests > /dev/null
 	tests/one.sh
-# change this to test.sh eventually
 
-testall:
+test:
 	make -C tests > /dev/null
 	tests/test.sh

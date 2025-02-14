@@ -33,8 +33,8 @@ typedef struct __attribute__((packed))
 #define HDR_SIZE sizeof(header)
 #define SERVER "Server"
 
-#define IP "10.4.2.20"
-#define PORT 9052
+// #define IP "10.4.2.20"
+// #define PORT 9052
 
 /* METHOD DEFINITIONS */
 

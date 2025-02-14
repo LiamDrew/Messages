@@ -1,46 +1,84 @@
 #!/bin/bash
 
-# Define color codes
-GREEN='\033[0;32m'
+# Get the directory where the script is located
+ORIGINAL_DIR=$(pwd)
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"  # Change to script directory
+
+# Define colors
 RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
-IP=127.0.0.1
-PORT=1026
+# Define IP address and Port number
+source ../.env
 
 
-# TEST 4: Make sure the client can send a full header + partial message to
-# their friend
-
-./simple_client.out Natalia > natalia_output.txt <<EOF &
+# TEST 17: Spamming server with invalid message types
+./simple_client.out Liam $IP $PORT > liam_output1.txt <<EOF 2> /dev/null &
 HELLO
 PAUSE
 PAUSE
-PAUSE
+LISTREQ
+HELLOACK
+SLEEP
+EXIT
 EOF
 
-sleep 0.5
+sleep 0.1
 
-./simple_client.out Liam > liam_output.txt <<EOF &
+./simple_client.out Liam2 $IP $PORT > liam_output2.txt <<EOF 2> /dev/null &
 HELLO
 PAUSE
 PAUSE
-PARTIAL
-Natalia
-I took her to my penthouse and
--1
-60
-1
+CLIENTLIST
+SLEEP
+EXIT
 EOF
+
+sleep 0.1
+
+./simple_client.out Liam3 $IP $PORT > liam_output3.txt <<EOF 2> /dev/null &
+HELLO
+PAUSE
+PAUSE
+ERRORPRESENT
+SLEEP
+EXIT
+EOF
+
+sleep 0.1
+
+./simple_client.out Liam4 $IP $PORT > liam_output4.txt <<EOF 2> /dev/null &
+HELLO
+PAUSE
+PAUSE
+ERRORDELIVER
+SLEEP
+EXIT
+EOF
+
+sleep 0.1
+
+./simple_client.out Liam5 $IP $PORT > liam_output5.txt <<EOF 2> /dev/null &
+HELLO
+PAUSE
+PAUSE
+MEGATYPE
+SLEEP
+EXIT
+EOF
+
 
 wait
 
 echo -e "______________________________________"
-echo "Test 4: Sending a full header + message to another client"
-if grep "Message content is: I took her to my penthouse" natalia_output.txt > /dev/null 2>&1; then
-    echo -e "Test 4 Passed"
+echo "Test 17: Spamming the server with bad messages"
+if grep "Shutting down the client" liam_output1.txt > /dev/null 2>&1; then
+    echo -e "${GREEN}Test 17 Passed${NC}"
 else
-    echo -e "Test 4 Failed"
+    echo -e "${RED}Test 17 Failed${NC}"
 fi
-rm liam_output.txt natalia_output.txt
-echo -e "______________________________________\n"
+rm liam_output1.txt liam_output2.txt liam_output3.txt liam_output4.txt liam_output5.txt
+echo -e "______________________________________"

@@ -14,7 +14,7 @@
  At this point, clients will be able to connect to the server and chat with each other.
 
  #### Testing
-  This program features a comprehensive unit test suite implemented in a bash shell script. This script 
+  This program features a comprehensive unit test suite implemented in a bash shell script. This script will run 23 tests using test clients to verify the functionality of the server. Here is the format of this test suite:
  ______________________________________
 Test 1: Sending a simple message back and forth  
 <span style="color: lightgreen">Test 1 Passed</span>
@@ -35,7 +35,10 @@ etc.
  3. Navigate to `Messages/`
  4. Run `make test`
 
- This will run 23 tests with test clients to verify the functionality of the server.
+ The source code for the test suite is located in `Messages/tests/test.sh`.
+ 
+
+
 
  ### Acknowledgements
  Professor Fahad Dogar for designing this project.
